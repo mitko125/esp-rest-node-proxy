@@ -138,8 +138,11 @@ static esp_err_t system_info_get_handler(httpd_req_t *req)
     cJSON *root = cJSON_CreateObject();
     esp_chip_info_t chip_info;
     esp_chip_info(&chip_info);
-    cJSON_AddStringToObject(root, "chip", CONFIG_IDF_TARGET);
-    cJSON_AddStringToObject(root, "idf_version", IDF_VER);
+    // cJSON_AddStringToObject(root, "chip", CONFIG_IDF_TARGET);
+    // cJSON_AddStringToObject(root, "idf_version", IDF_VER);
+    // cJSON_AddNumberToObject(root, "cores", chip_info.cores);
+    // преход от v6.0.1 към v3.5.1
+    cJSON_AddStringToObject(root, "version", IDF_VER);
     cJSON_AddNumberToObject(root, "cores", chip_info.cores);
     const char *sys_info = cJSON_Print(root);
     httpd_resp_sendstr(req, sys_info);

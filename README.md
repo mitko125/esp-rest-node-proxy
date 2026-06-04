@@ -19,7 +19,7 @@ POST /api/v1/light/brightness
 Изтриване на старата фронтенд част;  
 Вграждане на окончателния (за флаш вариант) фронтенд от [restful_server v5.3.1](https://github.com/espressif/esp-idf/tree/v5.3.1/examples/protocols/http_server/restful_server) в [html_files](/html_files/). Подреждането в поддиректории на този вариант ми е по-приятно;  
 
-- [ ] Изграждане на прокси `Node.js` сървър. При получен готов проект от GitHub потреблителя ще трябва само еднократно да:
+- [x] Изграждане на прокси `Node.js` сървър. При получен готов проект от GitHub потреблителя ще трябва само еднократно да:
 
 ```bash
 cd node_js
@@ -37,7 +37,7 @@ node --watch node_js/my_server.mjs
 Но сега за създаване на прокси `Node.js` сървъра, трябва да се изпълнят следните подготвителни подточки:  
 
 1. Създаване на `package.json` файл: в `cmd` `cd node_js` и `npm init`;
-2. Инсталиране на необходимите ни `js` модули:  в `cmd` `cd node_js` и `npm install ....`;
+2. Инсталиране на необходимите ни `js` модули:  в `cmd` `cd node_js` и `npm install express`;
 3. Създаване на обикновен `Node.js` сървъра в [my_server.mjs](/node_js/my_server.mjs);
 4. Надграждане на `Node.js` сървъра в прокси;
 
