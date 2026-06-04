@@ -1,0 +1,20 @@
+{
+  "name": "esp-rest-node-proxy",
+  "version": "1.0.0",
+  "description": "Лесно разработване на фронтенд за уеб сайт с ESP32, чрез Node.js прокси сървър",
+  "homepage": "https://github.com/mitko125/esp-rest-node-proxy#readme",
+  "bugs": {
+    "url": "https://github.com/mitko125/esp-rest-node-proxy/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mitko125/esp-rest-node-proxy.git"
+  },
+  "license": "ISC",
+  "author": "Д.Божилов",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}

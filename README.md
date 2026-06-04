@@ -22,7 +22,7 @@ POST /api/v1/light/brightness
 - [ ] Изграждане на прост `Node.js` сървър. При получен готов проект от GitHub потреблителя ще трябва само еднократно да:
 
 ```bash
-cd cd node_js
+cd node_js
 npm install
 ```
 
@@ -35,7 +35,7 @@ node --watch node_js/my_server.mjs
 След което се свързваме с <http://localhost:3000> и можем да даботим по web дизайна, без да флашваме `ESP32`.  
 Но сега трябва да се изпълнят следните подготвителни подточки:  
 
-1. Създаване на `package.json` файл: в `cmd` `cd cd node_js` и `npm init`;
+1. Създаване на `package.json` файл: в `cmd` `cd node_js` и `npm init`;
 2. Инсталиране на необходимите ни js модули;
 3. Създаване на обикновен `Node.js` сървъра в [my_server.mjs](/node_js/my_server.mjs);
 4. Надграждане на `Node.js` сървъра в прокси;
