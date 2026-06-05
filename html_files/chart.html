@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ESP32 Панел - Графика</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Специфичен стил за платното на графиката */
+        .canvas-container {
+            width: 100%;
+            overflow-x: auto;
+            text-align: center;
+            margin-top: 15px;
+        }
+        canvas {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            display: block;
+            margin: 0 auto;
+        }
+        .temp-display {
+            font-size: 24px;
+            font-weight: bold;
+            color: #3b82f6;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="navbar">
+            <a href="index.html">Начало</a>
+            <a href="chart.html" class="active">Графика</a>
+            <a href="light.html">Осветление</a>
+        </div>
+
+        <div class="main">
+            <h1>Мониторинг в реално време</h1>
+            <p>Данните за температурата се взимат директно от ESP32 на всеки 0.5 секунди.</p>
+
+            <div class="card">
+                <h2>Текуща стойност</h2>
+                <div class="temp-display" id="tempValue">-- °C</div>
+                
+                <div class="canvas-container">
+                    <!-- Нашето платно за рисуване -->
+                    <canvas id="tempChart" width="700" height="300"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Зареждаме външния JavaScript файл за графиката -->
+    <script src="js/chart.js"></script>
+</body>
+</html>

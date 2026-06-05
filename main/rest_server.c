@@ -26,7 +26,6 @@ typedef struct rest_server_context {
 
 #define CHECK_FILE_EXTENSION(filename, ext) (strcasecmp(&filename[strlen(filename) - strlen(ext)], ext) == 0)
 
-#if CONFIG_EXAMPLE_DEPLOY_WEB_PAGES
 /* Set HTTP response content type according to file extension */
 static esp_err_t set_content_type_from_file(httpd_req_t *req, const char *filepath)
 {
@@ -96,7 +95,6 @@ static esp_err_t rest_common_get_handler(httpd_req_t *req)
     httpd_resp_send_chunk(req, NULL, 0);
     return ESP_OK;
 }
-#endif // CONFIG_EXAMPLE_DEPLOY_WEB_PAGES
 
 /* Simple handler for light brightness control */
 static esp_err_t light_brightness_post_handler(httpd_req_t *req)
@@ -207,7 +205,6 @@ esp_err_t start_rest_server(const char *base_path)
     };
     httpd_register_uri_handler(server, &light_brightness_post_uri);
 
-#if CONFIG_EXAMPLE_DEPLOY_WEB_PAGES
     /* URI handler for getting web server files */
     httpd_uri_t common_get_uri = {
         .uri = "/*",
@@ -216,7 +213,6 @@ esp_err_t start_rest_server(const char *base_path)
         .user_ctx = rest_context
     };
     httpd_register_uri_handler(server, &common_get_uri);
-#endif // CONFIG_EXAMPLE_DEPLOY_WEB_PAGES
 
     return ESP_OK;
 err:

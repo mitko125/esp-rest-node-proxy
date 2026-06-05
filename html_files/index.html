@@ -1,25 +1,64 @@
 <!DOCTYPE html>
-<html lang=en>
-
+<html lang="bg">
 <head>
-    <meta charset=utf-8>
-    <meta http-equiv=X-UA-Compatible content="IE=edge">
-    <meta name=viewport content="width=device-width,initial-scale=1">
-    <link rel=icon href=./favicon.ico>
-    <title>ESP-HOME</title>
-    <link rel=stylesheet href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900">
-    <link rel=stylesheet href="https://fonts.googleapis.com/css?family=Material+Icons">
-    <link href=./css/chunk-vendors.3de0d1d9.css rel=preload as=style>
-    <link href=./js/app.3675863b.js rel=preload as=script>
-    <link href=./js/chunk-vendors.a152bbaa.js rel=preload as=script>
-    <link href=./css/chunk-vendors.3de0d1d9.css rel=stylesheet>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ESP32 Панел - Начало</title>
+    <!-- Зареждаме нашия нов лек и красив CSS -->
+    <link rel="stylesheet" href="css/style.css">
 </head>
+<body>
+    <div id="app">
+        <div class="navbar">
+            <a href="index.html" class="active">Начало</a>
+            <a href="chart.html">Графика</a>
+            <a href="light.html">Осветление</a>
+        </div>
 
-<body><noscript><strong>We're sorry but web-demo doesn't work properly without JavaScript enabled. Please enable it to
-            continue.</strong></noscript>
-    <div id=app></div>
-    <script src=./js/chunk-vendors.a152bbaa.js></script>
-    <script src=./js/app.3675863b.js></script>
+        <div class="main">
+            <h1>Добре дошли в ESP32 Контролния Панел</h1>
+            <p>Чист и лек интерфейс за управление без тежък софтуер.</p>
+
+            <!-- Твоето точно име на логото, което откри -->
+            <div style="text-align: center; margin: 30px 0;">
+                <img src="img/logo.3f515cd1.png" alt="ESP32 Logo" style="max-width: 180px; height: auto;">
+            </div>
+
+            <div class="card">
+                <h2>Системна Информация</h2>
+                <table class="info-table">
+                    <tr>
+                        <td>Версия на фърмуера</td>
+                        <td id="version">Зареждане...</td>
+                    </tr>
+                    <tr>
+                        <td>Процесорни ядра (Cores)</td>
+                        <td id="cores">Зареждане...</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function fetchSystemInfo() {
+            try {
+                const response = await fetch('/api/v1/system/info');
+                if (!response.ok) throw new Error(`Статус: ${response.status}`);
+
+                const data = await response.json();
+
+                document.getElementById('version').textContent = data.version || '—';
+                document.getElementById('cores').textContent = data.cores || '—';
+
+            } catch (error) {
+                console.error("Грешка:", error);
+                document.getElementById('version').textContent = "Грешка при връзка";
+                document.getElementById('cores').textContent = "—";
+            }
+        }
+
+        fetchSystemInfo();
+    </script>
 </body>
-
 </html>

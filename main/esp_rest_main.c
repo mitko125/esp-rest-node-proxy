@@ -39,7 +39,6 @@ static void initialise_mdns(void)
 
 esp_err_t init_fs(void)
 {
-#if CONFIG_EXAMPLE_DEPLOY_WEB_PAGES
     esp_vfs_littlefs_conf_t conf = {
         .base_path = WEB_PAGE_MOUNT_POINT_IN_FS,
         .partition_label = "www",
@@ -66,7 +65,7 @@ esp_err_t init_fs(void)
     } else {
         ESP_LOGI(TAG, "Partition size: total: %d, used: %d", total, used);
     }
-#endif // CONFIG_EXAMPLE_DEPLOY_WEB_PAGES
+
     return ESP_OK;
 }
 

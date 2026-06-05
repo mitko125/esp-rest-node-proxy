@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ESP32 Панел - RGB Осветление</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 25px;
+            margin: 30px 0;
+        }
+        .picker-container {
+            text-align: center;
+        }
+        /* Стилизиране на модерния бутон за избор на цвят */
+        .color-picker-wrapper {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            border: 4px solid #fff;
+            cursor: pointer;
+            display: inline-block;
+        }
+        .modern-picker {
+            padding: 0;
+            width: 140px;
+            height: 140px;
+            margin: -10px;
+            border: none;
+            cursor: pointer;
+            background: none;
+        }
+        .rgb-values {
+            font-size: 16px;
+            font-family: monospace;
+            color: #475569;
+            margin-top: 15px;
+            background: #f8fafc;
+            padding: 6px 12px;
+            border-radius: 6px;
+            border: 1px solid #e2e8f0;
+        }
+        .btn-group {
+            display: flex;
+            gap: 15px;
+        }
+        .status-message {
+            font-size: 14px;
+            color: #64748b;
+            margin-top: 5px;
+            height: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="navbar">
+            <a href="index.html">Начало</a>
+            <a href="chart.html">Графика</a>
+            <a href="light.html" class="active">Осветление</a>
+        </div>
+
+        <div class="main">
+            <h1>RGB Контрол на Светлината</h1>
+            <p>Изберете цвят от палитрата. Браузърът автоматично ще изпрати Red, Green и Blue към ESP32.</p>
+
+            <div class="card">
+                <h2>Избор на цвят</h2>
+                
+                <div class="control-group">
+                    <div class="picker-container">
+                        <!-- Кръгъл контейнер за палитрата -->
+                        <div class="color-picker-wrapper">
+                            <input type="color" id="rgbPicker" class="modern-picker" value="#3b82f6">
+                        </div>
+                        <!-- Текстова подсказка какво изпращаме в момента -->
+                        <div class="rgb-values" id="rgbText">R: 59 | G: 130 | B: 246</div>
+                    </div>
+
+                    <!-- Бързи бутони -->
+                    <div class="btn-group">
+                        <button class="btn" style="background-color: #ef4444;" id="btnOff">Изключи</button>
+                        <button class="btn" style="background-color: #ffffff; color: #000; border: 1px solid #cbd5e1;" id="btnWhite">Бяло</button>
+                    </div>
+
+                    <!-- Статус съобщение -->
+                    <div class="status-message" id="statusMsg"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const picker = document.getElementById('rgbPicker');
+        const rgbText = document.getElementById('rgbText');
+        const btnOff = document.getElementById('btnOff');
+        const btnWhite = document.getElementById('btnWhite');
+        const statusMsg = document.getElementById('statusMsg');
+
+        // Помощна функция: Превръща ХЕКС цвят (#3b82f6) в RGB обект {r, g, b} (0-255)
+        function hexToRgb(hex) {
+            const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+            return result ? {
+                r: parseInt(result[1], 16),
+                g: parseInt(result[2], 16),
+                b: parseInt(result[3], 16)
+            } : null;
+        }
+
+        // Основна функция за POST заявка към проксито
+        async function sendRGB(hexColor) {
+            statusMsg.textContent = "Изпращане...";
+            statusMsg.style.color = "#64748b";
+
+            const rgb = hexToRgb(hexColor);
+            if (!rgb) return;
+
+            // Обновяваме текстовия индикатор под палитрата
+            rgbText.textContent = `R: ${rgb.r} | G: ${rgb.g} | B: ${rgb.b}`;
+
+            try {
+                const response = await fetch('/api/v1/light/brightness', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    // Сглобяваме ТОЧНИЯ JSON, който ESP32 очаква
+                    body: JSON.stringify({
+                        red: rgb.r,
+                        green: rgb.g,
+                        blue: rgb.b
+                    })
+                });
+
+                if (!response.ok) throw new Error(`Статус: ${response.status}`);
+
+                statusMsg.textContent = "✓ Цветът е изпратен към ESP32";
+                statusMsg.style.color = "#22c55e";
+
+            } catch (error) {
+                console.error("Грешка при POST:", error);
+                statusMsg.textContent = "❌ Грешка при връзка";
+                statusMsg.style.color = "#ef4444";
+            }
+        }
+
+        // Докато потребителят влачи пръст/мишка из палитрата, само сменяме текста на екрана за бързина
+        picker.addEventListener('input', (e) => {
+            const rgb = hexToRgb(e.target.value);
+            if (rgb) rgbText.textContent = `R: ${rgb.r} | G: ${rgb.g} | B: ${rgb.b}`;
+        });
+
+        // Чак когато потребителят избере окончателно цвета и затвори палитрата, стреляме заявката (пазим ESP32)
+        picker.addEventListener('change', (e) => {
+            sendRGB(e.target.value);
+        });
+
+        // Бутон Изключи: Праща 0, 0, 0
+        btnOff.addEventListener('click', () => {
+            picker.value = "#000000";
+            sendRGB("#000000");
+        });
+
+        // Бутон Бяло: Праща 255, 255, 255
+        btnWhite.addEventListener('click', () => {
+            picker.value = "#ffffff";
+            sendRGB("#ffffff");
+        });
+    </script>
+</body>
+</html>

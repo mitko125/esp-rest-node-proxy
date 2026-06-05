@@ -1,0 +1,125 @@
+/* Общи настройки за изчистен и модерен изглед */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #f4f6f9;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Навигационна лента (Navbar) */
+.navbar {
+    background-color: #1e293b;
+    padding: 15px 20px;
+    display: flex;
+    gap: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.navbar a {
+    color: #cbd5e1;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 16px;
+    padding: 6px 12px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.navbar a:hover {
+    color: #fff;
+    background-color: #334155;
+}
+
+.navbar a.active {
+    color: #fff;
+    background-color: #3b82f6;
+}
+
+/* Основен контейнер */
+.main {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+h1 {
+    color: #0f172a;
+    margin-bottom: 10px;
+    font-size: 28px;
+}
+
+p {
+    color: #64748b;
+    margin-bottom: 30px;
+}
+
+/* Контейнери за съдържание (Карти) */
+.card {
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+    margin-bottom: 25px;
+}
+
+.card h2 {
+    color: #1e293b;
+    font-size: 20px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #f1f5f9;
+    padding-bottom: 10px;
+}
+
+/* Таблици за информация */
+.info-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.info-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #f1f5f9;
+    font-size: 15px;
+}
+
+.info-table tr:last-child td {
+    border-bottom: none;
+}
+
+.info-table td:first-child {
+    color: #64748b;
+    width: 40%;
+}
+
+.info-table td:last-child {
+    font-weight: 600;
+    color: #0f172a;
+    text-align: right;
+}
+
+/* Стилизиране на бутони, плъзгачи и графики (за следващите страници) */
+.btn {
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 15px;
+    font-weight: 600;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn:hover { background-color: #2563eb; }
+.btn:disabled { background-color: #94a3b8; cursor: not-allowed; }
+
+.slider {
+    width: 100%;
+    margin: 15px 0;
+}

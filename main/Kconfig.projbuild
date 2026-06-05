@@ -12,11 +12,4 @@ menu "Example Configuration"
         default "/www"
         help
             Specify the mount point in VFS.
-
-    config EXAMPLE_DEPLOY_WEB_PAGES
-        bool "Deploy web pages to device's filesystem"
-        default n
-        help
-            If enabled, the example will deploy web pages to the device's filesystem.
-            Ensure that the necessary files (html, css, js, etc.) are available in the `front/web-demo/dist` directory.
 endmenu
